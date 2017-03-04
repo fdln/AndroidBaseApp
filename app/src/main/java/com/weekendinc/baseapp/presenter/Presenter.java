@@ -8,8 +8,6 @@ import com.weekendinc.baseapp.view.DataView;
  */
 
 public interface Presenter {
-    ApiManager apiManager = ApiManager.getInstance();
-
     void setDataView(DataView dataView);
 
 }

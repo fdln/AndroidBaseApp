@@ -45,10 +45,10 @@ public class ApiConnection {
 
     private GithubService githubService;
 
-    private static ApiConnection instance = new ApiConnection();
+    private static ApiConnection instance;
 
     public static ApiConnection getInstance() {
-        return instance;
+        return instance == null ? instance = new ApiConnection() : instance;
     }
 
 
@@ -56,7 +56,7 @@ public class ApiConnection {
         Retrofit apiAdapter = buildApiAdapter(buildHttpClient(), Endpoint.BASE_URL);
         Retrofit githubApiAdapter = buildApiAdapter(buildHttpClient(), GithubService.SERVICE_ENDPOINT);
         Picasso.setSingletonInstance(buildPicassoInstance());
-        this.githubService = apiAdapter.create(GithubService.class);
+        this.githubService = githubApiAdapter.create(GithubService.class);
     }
 
     public GithubService getGithubService() {
