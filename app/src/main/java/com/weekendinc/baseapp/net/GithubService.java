@@ -10,9 +10,9 @@ import rx.Observable;
  * Created by Fadhlan on 3/2/17.
  */
 
-public interface GithubService extends Service {
+public interface GithubService {
     String SERVICE_ENDPOINT = "https://api.github.com";
 
-    @GET("/users/{login}")
+    @GET("users/{login}")
     Observable<GithubUser> getUser(@Path("login") String username);
 }

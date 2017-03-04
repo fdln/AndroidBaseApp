@@ -5,5 +5,6 @@ package com.weekendinc.baseapp.net;
  */
 
 public interface Endpoint {
-    String BASE_URL = "http://api.github.com/api/v3";
+    String BASE_URL = "http://api.github.com/api/v3/" +
+            "";
 }

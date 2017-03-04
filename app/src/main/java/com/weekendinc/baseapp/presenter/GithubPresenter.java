@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class GithubPresenter implements Presenter {
-
+    private ApiManager api = ApiManager.getInstance();
     private static final String LOG_TAG = GithubPresenter.class.getSimpleName();
 
     private DataView dataView;
@@ -27,7 +27,7 @@ public class GithubPresenter implements Presenter {
     }
 
     public void loadUser(String name) {
-        apiManager.getGithubUser(name, new Subscriber<GithubUser>() {
+        api.getGithubUser(name, new Subscriber<GithubUser>() {
             @Override public void onCompleted() {
                 Log.i(LOG_TAG, "onCompleted: ");
 
