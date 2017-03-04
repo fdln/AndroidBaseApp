@@ -1,0 +1,42 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: 'dependencies.gradle'
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io'}
+    }
+    ext {
+        appName                 = 'BaseApp'
+        appId                   = 'com.weekendinc.baseapp'
+        signingProps            = 'signing.properties'
+        versionProps            = 'version.properties'
+        localProps              = 'local.properties'
+        versionPatchName        = 'VERSION_PATCH'
+        versionBuildName        = 'VERSION_BUILD'
+        versionNumberName       = 'VERSION_NUMBER'
+        apkReleaseFileName      = "apk/${appId}"
+        adbFilePathName         = '/platform-tools/adb'
+        keystoreFileName        = 'KEYSTORE_FILE'
+        keystorePasswordName    = 'KEYSTORE_PASSWORD'
+        keyAliasName            = 'KEY_ALIAS'
+        keyPasswordName         = 'KEY_PASSWORD'
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

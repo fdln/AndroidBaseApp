@@ -1,0 +1,149 @@
+apply plugin: 'com.android.application'
+apply from: "${rootDir}/android_common.gradle"
+
+def globalConfig = rootProject.extensions.getByName("ext")
+
+android {
+    dexOptions {
+        javaMaxHeapSize "5g"
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    defaultConfig.applicationId = globalConfig.appId
+    def versionPropsFile = file(globalConfig.versionProps)
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def versionMajor = 0
+        def versionMinor = 0
+        def value = 0
+        def runTasks = gradle.startParameter.taskNames
+
+        if ('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks
+                || 'installRelease' in runTasks || 'runRelease' in runTasks || 'rR' in runTasks)
+            value = 1
+
+        def versionNumber = versionProps[globalConfig.versionNumberName].toInteger() + value
+        def versionPatch = versionProps[globalConfig.versionPatchName].toInteger() + value
+        def versionBuild = versionProps[globalConfig.versionBuildName].toInteger() + 1
+
+        versionProps[globalConfig.versionNumberName] = versionNumber.toString()
+        versionProps[globalConfig.versionPatchName] = versionPatch.toString()
+        versionProps[globalConfig.versionBuildName] = versionBuild.toString()
+
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            versionCode versionNumber
+            versionName "${versionMajor}.${versionMinor}.${versionPatch}-(${versionBuild})"
+            minSdkVersion globalConfig.androidMinSdkVersion
+            targetSdkVersion globalConfig.androidTargetSdkVersion
+            multiDexEnabled true
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def fileNaming = globalConfig.apkReleaseFileName
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    output.outputFile = new File(getProject().getRootDir(),
+                            "${fileNaming}-${versionMajor}.${versionMinor}.${versionPatch}-${outputFile.name}")
+                }
+            }
+        }
+    } else {
+        throw new GradleException("Could not read `version.properties` file")
+    }
+
+    signingConfigs {
+        release {
+            try {
+                def Properties props = new Properties()
+                def propFile = file(globalConfig.signingProps)
+                if (propFile.canRead()) {
+                    props.load(new FileInputStream(propFile))
+
+                    if (props != null
+                            && props.containsKey(globalConfig.keystoreFileName)
+                            && props.containsKey(globalConfig.keystorePasswordName)
+                            && props.containsKey(globalConfig.keyAliasName)
+                            && props.containsKey(globalConfig.keyPasswordName)) {
+
+                        def keystoreFile = file(props[globalConfig.keystoreFileName])
+                        if (keystoreFile.canRead()) {
+                            storeFile keystoreFile
+                            storePassword props[globalConfig.keystorePasswordName]
+                            keyAlias props[globalConfig.keyAliasName]
+                            keyPassword props[globalConfig.keyPasswordName]
+                        } else {
+                            println("[GRADLE BUILD ERR]: Keystore file not found: " + props[globalConfig.keystoreFileName])
+                            android.buildTypes.release.signingConfig = null
+                        }
+                    } else {
+                        println("[GRADLE BUILD ERR]: File signing.properties found but some entries missing")
+                        android.buildTypes.release.signingConfig = null
+                    }
+                } else {
+                    println("[GRADLE BUILD ERR]: File signing.properties not found")
+                    android.buildTypes.release.signingConfig = null
+                }
+            } catch (ex) {
+                throw new InvalidUserDataException("[GRADLE BUILD ERR]: Signing FAILED. Check signing config." + ex.message)
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+            applicationIdSuffix '.d'
+            versionNameSuffix '-DEBUG'
+        }
+        release {
+            debuggable false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            zipAlignEnabled true
+        }
+        internal.initWith(buildTypes.release)
+        internal {
+            applicationIdSuffix '.i'
+            versionNameSuffix '-internal'
+            debuggable true
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile appdepend.appcompat
+    compile appdepend.design
+
+    // net
+    compile appdepend.retrofit2
+    compile appdepend.okHttp
+    compile appdepend.okHttpUrlConnect
+    compile appdepend.okHttpLog
+
+    // downloader
+    compile appdepend.picasso
+
+    // rx
+    compile appdepend.rxJavaAdapter
+    compile appdepend.rxJava
+    compile appdepend.rxAndroid
+
+    // data adapter
+    compile appdepend.jacksonConverter
+    testCompile testdepend.jUnit
+}

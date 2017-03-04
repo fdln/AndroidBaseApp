@@ -1,0 +1,161 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    // Android
+    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = "25.0.2"
+    androidTargetSdkVersion = 25
+    androidMinSdkVersion = 20
+
+    // Libraries
+    jacksonVersion = '2.8.4'
+    androidSupportLibVersion = '25.1.1'
+    retrofit2Version = '2.1.0'
+
+    okHttpVersion = '3.4.1'
+    okHttpLogVersion = '3.4.1'
+    autoValueVersion = '1.2'
+    autoValueParcelVersion = '0.2.3-rc2'
+    autoValueGsonVersion = '0.3.1'
+    autoValueMoshiVersion = '0.4.0-rc2'
+    gsonVersion = '2.6.2'
+    gsonConverterVersion = '2.0.0'
+    jodaTimeVersion = '2.3'
+    jodaConvertVersion = '1.6'
+    commonsIoVersion = '2.4'
+    constraintLayoutVersion = '1.0.0-beta4'
+    gmsVersion = '9.2.1'
+    rxJavaVersion = '1.1.8'
+    rxAndroidVersion = '1.2.1'
+//    picassoVersion = '2.5.2'
+    picassoVersion = '3.0.0-SNAPSHOT@aar'
+    picassoDownloaderVersion = '1.0.2'
+    javaxAnnotationVersion = '1.0'
+    androidAnnotationVersion = '4.0.0'
+    daggerVersion = '2.0.2'
+    butterKnifeVersion = '8.2.1'
+    commongsLangVersion = '3.4'
+    javaxValidationVersion = '1.0.0.GA'
+
+    // Persistence
+    hawkVersion = '1.23'
+
+    // Libraries for UI
+    sliceVersion = 'v1.2' // Android drawable that allows you custom round rect position
+    crystalPreloadersVersion = '1.0.0'
+    bottomBarVersion = '1.4.0.1'
+    matBottomNavVersion = '1.0.7'
+    fragNavVersion = '1.0.3'
+    fragmentNavigatorVersion = '1.0.2'
+    tSnacBarVersion = '1.1.1'
+    rippleEffectVersion = '1.3'
+
+    //headerDecorVersion = '0.2.7'
+    headerDecorVersion = '0.2.7.2'
+    materialEditTextVersion = '2.1.4'
+    materialDialogVersion = '0.9.0.1'
+
+    // Testing
+    jUnitVersion = '4.12'
+    multidexVersion = '1.0.1'
+    droppyVersion = '0.5.1@aar'
+    facebookSdkVersion = '4.16.0'
+    googleMessagingServiceVersion = '9.6.1'
+
+    materialSpinnerVersion = '1.1.1'
+    floatingSearchViewVersion = '2.0.3'
+
+    // Utility
+    json2pojoVersion = '0.4.27'
+
+    // Streams
+    protonPackVersion = '1.9'
+
+    // Xml Parser Dom
+    dom4jVersion = '2.0.0'
+    loggerVersion = '1.15'
+
+    appdepend = [
+            multidex                   : "com.android.support:multidex:${multidexVersion}",
+            appcompat                  : "com.android.support:appcompat-v7:${androidSupportLibVersion}",
+            design                     : "com.android.support:design:${androidSupportLibVersion}",
+            constraintLayout           : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            cardView                   : "com.android.support:cardview-v7:${androidSupportLibVersion}",
+            supportV13                 : "com.android.support:support-v13:${androidSupportLibVersion}",
+            retrofit2                  : "com.squareup.retrofit2:retrofit:${retrofit2Version}",
+            retrofit2XmlConverter      : "com.squareup.retrofit2:converter-simplexml:${retrofit2Version}",
+            gsonConverter              : "com.squareup.retrofit2:converter-gson:${retrofit2Version}",
+            jacksonConverter           : "com.squareup.retrofit2:converter-jackson:${retrofit2Version}",
+            jacksonDatabind            : "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
+            jacksonCore                : "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}",
+            jacksonAnnotation          : "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}",
+            okHttp                     : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLog                  : "com.squareup.okhttp3:logging-interceptor:${okHttpLogVersion}",
+            okHttpUrlConnect           : "com.squareup.okhttp3:okhttp-urlconnection:${okHttpVersion}",
+            rxJavaAdapter              : "com.squareup.retrofit2:adapter-rxjava:${retrofit2Version}",
+
+            gson                       : "com.google.code.gson:gson:${gsonVersion}",
+            jodaTime                   : "joda-time:joda-time:${jodaTimeVersion}",
+            jodaConvert                : "org.joda:joda-convert:${jodaConvertVersion}",
+            commonsIo                  : "commons-io:commons-io:${commonsIoVersion}",
+            commonsLang                : "org.apache.commons:commons-lang3:${commongsLangVersion}",
+            javaxValidation            : "javax.validation:validation-api:${javaxValidationVersion}",
+            ksoap                      : "libs/ksoap2-android-2.5.2.jar",
+            autoValue                  : "com.google.auto.value:auto-value:${autoValueVersion}",
+            autoValueParcel            : "com.ryanharter.auto.value:auto-value-parcel:${autoValueParcelVersion}",
+            autoValueParcelAdapter     : "com.ryanharter.auto.value:auto-value-parcel-adapter:${autoValueParcelVersion}",
+            autoValueGson              : "com.ryanharter.auto.value:auto-value-gson:${autoValueGsonVersion}",
+            autoValueMoshi             : "com.ryanharter.auto.value:auto-value-moshi:${autoValueMoshiVersion}",
+            rxJava                     : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid                  : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            picasso                    : "com.squareup.picasso:picasso:${picassoVersion}",
+            picassoDownloader          : "com.jakewharton.picasso:picasso2-okhttp3-downloader:${picassoDownloaderVersion}",
+            javaxAnnotation            : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            androidAnnotation          : "com.android.support:support-annotation:${androidAnnotationVersion}",
+            dagger                     : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler             : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            butterKnife                : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler        : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+
+            slice                      : "com.github.mthli:Slice:${sliceVersion}",
+            crystalPreloaders          : "com.crystal:crystalpreloaders:${crystalPreloadersVersion}",
+            bottomBar                  : "com.roughike:bottom-bar:${bottomBarVersion}",
+            fragNav                    : "com.ncapdevi:frag-nav:${fragNavVersion}",
+            fragmentNavigator          : "com.github.Aspsine:FragmentNavigator:${fragmentNavigatorVersion}",
+            matBottomNav               : "it.sephiroth.android.library.bottomnavigation:bottom-navigation:${matBottomNavVersion}",
+            rippleEffect               : "com.github.traex.rippleeffect:library:${rippleEffectVersion}",
+            headerDecor                : "com.github.fdln:header-decor:${headerDecorVersion}",
+            materialEditText           : "com.github.rengwuxian:MaterialEditText:${materialEditTextVersion}",
+            materialDialog             : "com.afollestad.material-dialogs:core:${materialDialogVersion}",
+            droppy                     : "com.shehabic.droppy:Droppy:${droppyVersion}",
+            materialSpinner            : "com.github.ganfra:material-spinner:${materialSpinnerVersion}",
+            tSnackBar                  : "com.androidadvance:topsnackbar:${tSnacBarVersion}",
+            floatingSearchView         : "com.github.arimorty:floatingsearchview:${floatingSearchViewVersion}",
+
+
+
+            facebookSdk                : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
+            googleVisionBarcode        : "com.google.android.gms:play-services-vision:${googleMessagingServiceVersion}",
+            googleMessagingServicesAuth: "com.google.android.gms:play-services-auth:${googleMessagingServiceVersion}",
+            googleMessagingMaps        : "com.google.android.gms:play-services-maps:${googleMessagingServiceVersion}",
+            googleMessagingPlaces      : "com.google.android.gms:play-services-places:${googleMessagingServiceVersion}",
+            googleMessagingAppIndexing : "com.google.android.gms:play-services-appindexing:${googleMessagingServiceVersion}",
+            googleMessagingLocation    : "com.google.android.gms:play-services-location:${googleMessagingServiceVersion}",
+            json2pojo                  : "org.jsonschema2pojo:jsonschema2pojo-core:${json2pojoVersion}",
+            hawk                       : "com.github.orhanobut:hawk:${hawkVersion}",
+            protonPack                 : "com.codepoetics.:protonpack:${protonPackVersion}",
+
+            dom4j                      : "org.dom4j:dom4j:${dom4jVersion}",
+            logger                     : "com.orhanobut:logger:${loggerVersion}"
+
+
+    ]
+
+    testdepend = [
+            jUnit: "junit:junit:${jUnitVersion}"
+    ]
+}
