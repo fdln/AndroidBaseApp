@@ -12,7 +12,7 @@ apk/
 *.class
 local.properties
 *.keystore
-gradle.properties
+#gradle.properties
 bin/
 gen/
 out/
