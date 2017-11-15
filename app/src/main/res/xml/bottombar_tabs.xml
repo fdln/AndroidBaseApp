@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/ic_flight_takeoff"
+        id="@+id/tab_one"
+        title="Tab 1" />
+    <tab
+        icon="@drawable/ic_flight_land"
+        id="@+id/tab_two"
+        title="Tab 2" />
+    <tab
+        icon="@drawable/ic_account_circle"
+        id="@+id/tab_three"
+        title="Tab 3" />
+</tabs>

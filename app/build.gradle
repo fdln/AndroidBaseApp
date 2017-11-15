@@ -44,16 +44,16 @@ android {
             multiDexEnabled true
         }
 
-        applicationVariants.all { variant ->
-            variant.outputs.each { output ->
-                def fileNaming = globalConfig.apkReleaseFileName
-                def outputFile = output.outputFile
-                if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                    output.outputFile = new File(getProject().getRootDir(),
-                            "${fileNaming}-${versionMajor}.${versionMinor}.${versionPatch}-${outputFile.name}")
-                }
-            }
-        }
+//        applicationVariants.all { variant ->
+//            variant.outputs.each { output ->
+//                def fileNaming = globalConfig.apkReleaseFileName
+//                def outputFile = output.outputFile
+//                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                    output.outputFile = new File(getProject().getRootDir(),
+//                            "${fileNaming}-${versionMajor}.${versionMinor}.${versionPatch}-${outputFile.name}")
+//                }
+//            }
+//        }
     } else {
         throw new GradleException("Could not read `version.properties` file")
     }
@@ -118,32 +118,51 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile appdepend.appcompat
-    compile appdepend.design
+    implementation appdepend.appcompat
+    implementation appdepend.design
+    implementation appdepend.cardView
+    implementation appdepend.constraintLayout
+    implementation appdepend.supportV13
 
     // net
-    compile appdepend.retrofit2
-    compile appdepend.okHttp
-    compile appdepend.okHttpUrlConnect
-    compile appdepend.okHttpLog
+    implementation appdepend.retrofit2
+    implementation appdepend.okHttp
+    implementation appdepend.okHttpUrlConnect
+    implementation appdepend.okHttpLog
 
     // downloader
-    compile appdepend.picasso
+    implementation appdepend.glide
+    annotationProcessor appdepend.glideCompiler
 
     // rx
-    compile appdepend.rxJavaAdapter
-    compile appdepend.rxJava
-    compile appdepend.rxAndroid
+    implementation appdepend.rxJavaAdapter
+    implementation appdepend.rxJava
+    implementation appdepend.rxAndroid
 
     // data adapter
-    compile appdepend.jacksonConverter
+    implementation appdepend.jacksonConverter
     testCompile testdepend.jUnit
+    implementation appdepend.javaxAnnotation
+
+    // additional
+    implementation appdepend.hawk
+    implementation appdepend.materialDialog
+    implementation appdepend.butterKnife
+    annotationProcessor appdepend.butterKnifeCompiler
+    implementation appdepend.materialDialog
+
+    //autovalue
+    provided appdepend.autoValue
+    annotationProcessor appdepend.autoValue
+
 }

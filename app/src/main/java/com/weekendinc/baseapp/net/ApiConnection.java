@@ -3,14 +3,10 @@ package com.weekendinc.baseapp.net;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.picasso.LruCache;
-import com.squareup.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
 import com.weekendinc.baseapp.Application;
 
 import java.io.File;
@@ -55,7 +51,6 @@ public class ApiConnection {
     private ApiConnection() {
         Retrofit apiAdapter = buildApiAdapter(buildHttpClient(), Endpoint.BASE_URL);
         Retrofit githubApiAdapter = buildApiAdapter(buildHttpClient(), GithubService.SERVICE_ENDPOINT);
-        Picasso.setSingletonInstance(buildPicassoInstance());
         this.githubService = githubApiAdapter.create(GithubService.class);
     }
 
@@ -116,15 +111,16 @@ public class ApiConnection {
 
         return new Interceptor() {
 
-            @Override public Response intercept(Chain chain) throws IOException {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
                 Context context = Application.getInstance().getApplicationContext();
                 return chain.proceed(
                         request.method().equals("GET")
-                        ? isNetworkAvailable(context)
-                          ? request.newBuilder().removeHeader(pragma).header(hCache, vCache).build()
-                          : request.newBuilder().removeHeader(pragma).header(hCache, vStall).build()
-                        : request).newBuilder().removeHeader(pragma)
+                                ? isNetworkAvailable(context)
+                                ? request.newBuilder().removeHeader(pragma).header(hCache, vCache).build()
+                                : request.newBuilder().removeHeader(pragma).header(hCache, vStall).build()
+                                : request).newBuilder().removeHeader(pragma)
                         .header(hCache, max).build();
             }
         };
@@ -152,33 +148,6 @@ public class ApiConnection {
                 .client(httpClient)
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-    }
-
-    /**
-     * As Picasso logger
-     *
-     * @return
-     */
-    private Picasso.Listener getPicassoListener() {
-        return new Picasso.Listener() {
-            @Override public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                Log.e("PICASSO", uri.toString(), exception);
-            }
-        };
-    }
-
-    /**
-     * Prepare for singleton picasso, set disk cache and mem cache
-     *
-     * @return
-     */
-    private Picasso buildPicassoInstance() {
-        Context context = Application.getInstance().getApplicationContext();
-        return new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(context, MAX_DISK_CACHE_SIZE))
-                .memoryCache(new LruCache(MAX_MEMORY_CACHE_SIZE))
-                .listener(getPicassoListener())
                 .build();
     }
 
