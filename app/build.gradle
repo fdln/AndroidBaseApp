@@ -165,4 +165,6 @@ dependencies {
     provided appdepend.autoValue
     annotationProcessor appdepend.autoValue
 
+    implementation appdepend.fragNav
+
 }
