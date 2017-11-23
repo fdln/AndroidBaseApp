@@ -1,6 +1,7 @@
-package com.weekendinc.baseapp.presenter;
+package com.weekendinc.baseapp.presenter.iview;
 
 import com.weekendinc.baseapp.model.api.data.Error;
+import com.weekendinc.baseapp.presenter.iview.IView;
 
 
 /**
